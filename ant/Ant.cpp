@@ -52,6 +52,11 @@ void TAnt::SetAI(TAntAI * ai)
   AI = ai;
   }
 
+void TAnt::DoMoveAuto()
+  {
+  DoMove(Predict());
+  }
+
 void TAnt::DoMove(TDirection dir)
   {
   if (dir < 0 || dir >= MAX_DIR)

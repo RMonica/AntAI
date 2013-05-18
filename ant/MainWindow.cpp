@@ -107,6 +107,9 @@ void TQMainWindow::keyPressEvent(QKeyEvent * event)
     case Qt::Key_Left:
       ant->DoMove(DIR_WEST);
       break;
+    case ' ':
+      ant->DoMoveAuto();
+      break;
     case 'N':
     case 'n':
       PrepareMap();

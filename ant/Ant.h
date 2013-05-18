@@ -46,6 +46,7 @@ class TAnt
   TMove GetLastMove() const {return lastmove; }
 
   void DoMove(TDirection dir);
+  void DoMoveAuto();
 
   // event emitted when the ant just moved
   virtual void AntMoved(TMove /*move*/) {}
