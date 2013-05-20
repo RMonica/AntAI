@@ -101,3 +101,19 @@ TGrid TGrid::ExtractNeighborhood(sint x, sint y, uint range, TCellValue defValue
 
   return result;
   }
+
+bool TGrid::operator==(const TGrid & other) const
+  {
+  if (other.width != width)
+    return false;
+
+  if (other.height != height)
+    return false;
+
+  uint ncell = height * width;
+  for (uint i = 0; i < ncell; i++)
+    if (grid[i] != other.grid[i])
+      return false;
+
+  return true;
+  }

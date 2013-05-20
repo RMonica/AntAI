@@ -18,6 +18,7 @@
 #include "Move.h"
 
 #include <sstream>
+#include <algorithm>
 
 TMove::TMove()
   {
@@ -79,7 +80,7 @@ std::string TMove::ToString() const
   return result.str();
   }
 
-TMove TMove::Rotate(TRotation rotation)
+TMove TMove::Rotate(TRotation rotation) const
   {
   // create rotation composing symmetries
   switch (rotation)
@@ -97,7 +98,7 @@ TMove TMove::Rotate(TRotation rotation)
     }
   }
 
-TMove TMove::Reflect(TSymmetry symmetry)
+TMove TMove::Reflect(TSymmetry symmetry) const
   {
   uint mywidth = GetWidth();
   uint myheight = GetHeight();
@@ -161,5 +162,40 @@ TMove TMove::Reflect(TSymmetry symmetry)
     default:
       return (*this);
     }
+  }
+
+TMoveList TMove::ProduceAllRotationsAndReflections() const
+  {
+  TMoveList result;
+
+  for (uint r = ROTATION_NONE; r < MAX_ROTATION; r++)
+    {
+    TMove rotated = this->Rotate(TRotation(r));
+    for (uint s = SYMMETRY_NONE; s < MAX_SYMMETRY; s++)
+      {
+      TMove reflected = rotated.Reflect(TSymmetry(s));
+
+      TMoveList::iterator o = std::find(result.begin(),result.end(),reflected);
+      if (o == result.end()) // avoid duplicates
+        result.push_back(reflected);
+      }
+    }
+
+  return result;
+  }
+
+bool TMove::operator==(const TMove & other) const
+  {
+  return TGrid::operator==(other) && dir == other.dir;
+  }
+
+bool TMove::operator==(const TGrid & other) const
+  {
+  const TMove * maybeMove = dynamic_cast<const TMove *>(&other);
+
+  if (!maybeMove)
+    return TGrid::operator==(other);
+
+  return operator==(*maybeMove);
   }
 

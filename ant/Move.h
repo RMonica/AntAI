@@ -22,6 +22,7 @@
 #include "Direction.h"
 
 #include <string>
+#include <list>
 
 class TMove: public TGrid
   {
@@ -35,6 +36,9 @@ class TMove: public TGrid
   TMove &operator =(const TMove & other);
   TGrid &operator =(const TGrid & other);
 
+  virtual bool operator==(const TMove & other) const;
+  virtual bool operator==(const TGrid & other) const;
+
   TDirection GetChoice() const {return dir; }
   void SetChoice(TDirection choice) {if (choice >= 0 && choice < MAX_DIR) dir = choice; }
 
@@ -42,11 +46,17 @@ class TMove: public TGrid
   std::string ToString() const;
 
   // rotate the move counter-clockwise
-  TMove Rotate(TRotation rotation);
-  TMove Reflect(TSymmetry symmetry);
+  TMove Rotate(TRotation rotation) const;
+  TMove Reflect(TSymmetry symmetry) const;
+
+  // produces a list of moves by applying all the rotations and simmetries to this move
+  // without duplicates
+  std::list<TMove> ProduceAllRotationsAndReflections() const;
 
   private:
   TDirection dir;
   };
+
+typedef std::list<TMove> TMoveList;
 
 #endif // MOVE_H

@@ -24,15 +24,11 @@ TQAntAdapter::TQAntAdapter(QObject *parent, uint x, uint y, uint range, TGrid &m
 
 void TQAntAdapter::AntMoved(TMove move)
   {
-  for (uint r = ROTATION_NONE; r < MAX_ROTATION; r++)
-    {
-    TMove rotated = move.Rotate(TRotation(r));
-    for (uint s = SYMMETRY_NONE; s < MAX_SYMMETRY; s++)
-      {
-      TMove reflected = rotated.Reflect(TSymmetry(s));
+  TMoveList temp = move.ProduceAllRotationsAndReflections();
 
-      std::string movestr = reflected.ToString();
-      emit antMoved(QString(movestr.c_str()));
-      }
+  for (TMoveList::iterator i = temp.begin(); i != temp.end(); ++i)
+    {
+    std::string movestr = i->ToString();
+    emit antMoved(QString(movestr.c_str()));
     }
   }

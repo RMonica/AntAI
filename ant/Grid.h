@@ -30,6 +30,8 @@ class TGrid
 
   TGrid & operator=(const TGrid & other);
 
+  virtual bool operator==(const TGrid & other) const;
+
   TCellValue * operator[](uint idx);
 
   const TCellValue * operator[](uint idx) const;
