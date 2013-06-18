@@ -77,6 +77,8 @@ class TAnt
   TAntAI * AI;
 
   TGrid & map;
+
+  uint AIrandomseed;
   };
 
 #endif // ANT_H

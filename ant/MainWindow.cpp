@@ -53,6 +53,10 @@ TQMainWindow::TQMainWindow(QWidget *parent):QWidget(parent)
   TQRecorderWidget * recorderWidget = new TQRecorderWidget(this);
 
   QVBoxLayout * aiLoaderLayout = new QVBoxLayout();
+  QPushButton * aiRandomButton = new QPushButton("Load random AI",this);
+  connect(aiRandomButton,SIGNAL(clicked()),this,SLOT(DoLoadRandomAI()));
+  aiRandomButton->setFocusPolicy(Qt::NoFocus);
+  aiLoaderLayout->addWidget(aiRandomButton);
   QPushButton * aiTreeButton = new QPushButton("Load tree AI...",this);
   connect(aiTreeButton,SIGNAL(clicked()),this,SLOT(DoLoadTreeAI()));
   aiTreeButton->setFocusPolicy(Qt::NoFocus);
@@ -184,6 +188,14 @@ void TQMainWindow::DoLoadTreeAI()
     return;
 
   ant->SetAI(new TAntTreeAI(str.toAscii().data()));
+  displayAIEdit->setText(ant->GetAIInfo().c_str());
+
+  UpdateAll();
+  }
+
+void TQMainWindow::DoLoadRandomAI()
+  {
+  ant->SetAI(new TRandomAntAI());
   displayAIEdit->setText(ant->GetAIInfo().c_str());
 
   UpdateAll();

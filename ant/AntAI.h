@@ -27,7 +27,7 @@
 class TAntAI
   {
   public:
-  virtual TDirection Evaluate(TGrid status) = 0;
+  virtual TDirection Evaluate(TGrid status,uint randomseed) = 0;
   virtual std::string ToString() = 0;
 
   private:
@@ -37,9 +37,17 @@ class TAntAI
 class TStupidAntAI: public TAntAI
   {
   public:
-  virtual TDirection Evaluate(TGrid status);
+  virtual TDirection Evaluate(TGrid status,uint randomseed);
 
   virtual std::string ToString() {return "TStupidAI: always north."; }
+  };
+
+class TRandomAntAI: public TAntAI
+  {
+  public:
+  virtual TDirection Evaluate(TGrid status,uint randomseed);
+
+  virtual std::string ToString() {return "TRandomAI: random."; }
   };
 
 #endif // ANTAI_H

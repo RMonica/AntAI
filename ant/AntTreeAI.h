@@ -60,7 +60,7 @@ class TAntTreeAI : public TAntAI
   TAntTreeAI(std::string loadfromfile);
   ~TAntTreeAI();
 
-  virtual TDirection Evaluate(TGrid status);
+  virtual TDirection Evaluate(TGrid status,uint randomseed);
 
   virtual std::string ToString();
 

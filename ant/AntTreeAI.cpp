@@ -187,7 +187,7 @@ TAntTreeAI::~TAntTreeAI()
     delete tree;
   }
 
-TDirection TAntTreeAI::Evaluate(TGrid status)
+TDirection TAntTreeAI::Evaluate(TGrid status, uint /*randomseed*/)
   {
   if (tree)
     return tree->Evaluate(status);

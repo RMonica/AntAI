@@ -17,6 +17,8 @@
 
 #include "Ant.h"
 
+#include <cstdlib>
+
 TAnt::TAnt(uint cx,uint cy,uint range,TGrid & m): map(m)
   {
   visualRange = range;
@@ -43,6 +45,8 @@ void TAnt::ResetPosition(uint cx,uint cy)
 
   lastmove = neighborhood;
   lastmove.SetChoice(DIR_NONE);
+
+  AIrandomseed = std::rand();
   }
 
 void TAnt::SetAI(TAntAI * ai)
@@ -77,6 +81,10 @@ void TAnt::DoMove(TDirection dir)
     newy < 0 || newy >= sint(map.GetHeight()))
     {
     points += GAME_BOUNDARY_PENALTY;
+
+    AIrandomseed = std::rand();
+    AntMoved(lastmove);
+
     return; // hit the edge of the map
     }
 
@@ -91,13 +99,15 @@ void TAnt::DoMove(TDirection dir)
   y = newy;
   neighborhood = map.ExtractNeighborhood(x,y,visualRange,GAME_BOUNDARY_PENALTY);
 
+  AIrandomseed = std::rand();
+
   AntMoved(lastmove);
   }
 
 TDirection TAnt::Predict() const
   {
   if (AI)
-    return AI->Evaluate(neighborhood);
+    return AI->Evaluate(neighborhood,AIrandomseed);
 
   return DIR_NORTH;
   }

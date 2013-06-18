@@ -17,7 +17,12 @@
 
 #include "AntAI.h"
 
-TDirection TStupidAntAI::Evaluate(TGrid /*status*/)
+TDirection TStupidAntAI::Evaluate(TGrid /*status*/, uint /*randomseed*/)
   {
   return DIR_NORTH;
+  }
+
+TDirection TRandomAntAI::Evaluate(TGrid /*status*/, uint randomseed)
+  {
+  return TDirection(randomseed % MAX_DIR);
   }
