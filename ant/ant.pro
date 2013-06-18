@@ -9,6 +9,8 @@ QT       += core gui
 TARGET = ant
 TEMPLATE = app
 
+LIBS += -lfann
+
 
 SOURCES += main.cpp\
         MainWindow.cpp \
@@ -20,7 +22,9 @@ SOURCES += main.cpp\
     Arff.cpp \
     AntAdapter.cpp \
     AntAI.cpp \
-    AntTreeAI.cpp
+    AntTreeAI.cpp \
+    AntNeuralAI.cpp \
+    MultilayerPerceptron.cpp
 
 HEADERS  += MainWindow.h \
     Grid.h \
@@ -34,4 +38,6 @@ HEADERS  += MainWindow.h \
     Arff.h \
     AntAdapter.h \
     AntAI.h \
-    AntTreeAI.h
+    AntTreeAI.h \
+    AntNeuralAI.h \
+    MultilayerPerceptron.h

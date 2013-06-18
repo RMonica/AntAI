@@ -29,6 +29,7 @@ class TAntAI
   public:
   virtual TDirection Evaluate(TGrid status,uint randomseed) = 0;
   virtual std::string ToString() = 0;
+  virtual ~TAntAI() {}
 
   private:
 

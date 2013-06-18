@@ -40,6 +40,7 @@ class TQMainWindow : public QWidget
   public slots:
   void DoLoadTreeAI();
   void DoLoadRandomAI();
+  void DoLoadNeuralAI();
 
   private:
   TQGridWidget * mapWidget;

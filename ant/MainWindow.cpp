@@ -27,6 +27,7 @@
 #include "RecorderWidget.h"
 #include "Arff.h"
 #include "AntTreeAI.h"
+#include "AntNeuralAI.h"
 
 TQMainWindow::TQMainWindow(QWidget *parent):QWidget(parent)
   {
@@ -61,6 +62,10 @@ TQMainWindow::TQMainWindow(QWidget *parent):QWidget(parent)
   connect(aiTreeButton,SIGNAL(clicked()),this,SLOT(DoLoadTreeAI()));
   aiTreeButton->setFocusPolicy(Qt::NoFocus);
   aiLoaderLayout->addWidget(aiTreeButton);
+  QPushButton * aiNeuralButton = new QPushButton("Load neural AI...",this);
+  connect(aiNeuralButton,SIGNAL(clicked()),this,SLOT(DoLoadNeuralAI()));
+  aiNeuralButton->setFocusPolicy(Qt::NoFocus);
+  aiLoaderLayout->addWidget(aiNeuralButton);
 
   displayAIEdit = new QTextEdit(this);
   displayAIEdit->setFocusPolicy(Qt::NoFocus);
@@ -188,6 +193,18 @@ void TQMainWindow::DoLoadTreeAI()
     return;
 
   ant->SetAI(new TAntTreeAI(str.toAscii().data()));
+  displayAIEdit->setText(ant->GetAIInfo().c_str());
+
+  UpdateAll();
+  }
+
+void TQMainWindow::DoLoadNeuralAI()
+  {
+  QString str = QFileDialog::getOpenFileName(this,"Load neural AI");
+  if (str == "") // cancel pressed
+    return;
+
+  ant->SetAI(new TAntNeuralAI(str.toAscii().data()));
   displayAIEdit->setText(ant->GetAIInfo().c_str());
 
   UpdateAll();
