@@ -2,7 +2,8 @@
 
 #include "GameDefines.h"
 
-#include <iostream>
+// if two result are closer than this, will choose randomly
+#define SIMILARITY_LIMIT 0.2
 
 TAntNeuralAI::TAntNeuralAI(std::string fromfile)
   {
@@ -42,6 +43,28 @@ TDirection TAntNeuralAI::Evaluate(TGrid status,uint randomseed)
   for (uint i = 1; i < MAX_DIR; i++)
     if (output[maxi] < output[i])
       maxi = i;
+
+  float tot = 0.0;
+  std::vector<float> diff(4,0.0);
+  for (uint i = 0; i < MAX_DIR; i++)
+    if (output[maxi] - output[i] < SIMILARITY_LIMIT)
+      {
+      diff[i] = SIMILARITY_LIMIT - (output[maxi] - output[i]);
+      tot += diff[i];
+      }
+
+  std::vector<float> prob(4,0.0);
+  for (uint i = 0; i < MAX_DIR; i++)
+    prob[i] = diff[i] / tot;
+
+  float random = float(randomseed % 100) / 99.0;
+  for (uint i = 0; i < MAX_DIR; i++)
+    {
+    if (prob[i] >= random)
+      return TDirection(i);
+
+    random -= prob[i];
+    }
 
   return TDirection(maxi);
   }
