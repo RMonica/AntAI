@@ -28,6 +28,7 @@
 #include "Arff.h"
 #include "AntTreeAI.h"
 #include "AntNeuralAI.h"
+#include "AntPolishFunctionAI.h"
 
 TQMainWindow::TQMainWindow(QWidget *parent):QWidget(parent)
   {
@@ -37,7 +38,6 @@ TQMainWindow::TQMainWindow(QWidget *parent):QWidget(parent)
   lastMoveWidget = new TQGridWidget(this);
   curMoveWidget = new TQGridWidget(this);
   scoreLabel = new QLabel(this);
-  //normMoveWidget = new TQGridWidget(this);
 
   QVBoxLayout * lastMoveLayout = new QVBoxLayout();
   lastMoveLayout->addWidget(new QLabel("Last move:",this));
@@ -46,10 +46,6 @@ TQMainWindow::TQMainWindow(QWidget *parent):QWidget(parent)
   QVBoxLayout * curMoveLayout = new QVBoxLayout();
   curMoveLayout->addWidget(new QLabel("Next move:",this));
   curMoveLayout->addWidget(curMoveWidget);
-
-  //QVBoxLayout * normMoveLayout = new QVBoxLayout();
-  //normMoveLayout->addWidget(new QLabel("Normalized move:",this));
-  //normMoveLayout->addWidget(normMoveWidget);
 
   TQRecorderWidget * recorderWidget = new TQRecorderWidget(this);
 
@@ -66,6 +62,10 @@ TQMainWindow::TQMainWindow(QWidget *parent):QWidget(parent)
   connect(aiNeuralButton,SIGNAL(clicked()),this,SLOT(DoLoadNeuralAI()));
   aiNeuralButton->setFocusPolicy(Qt::NoFocus);
   aiLoaderLayout->addWidget(aiNeuralButton);
+  QPushButton * aiPolishFunctionButton = new QPushButton("Load prefix function AI...",this);
+  connect(aiPolishFunctionButton,SIGNAL(clicked()),this,SLOT(DoLoadPolishFunctionAI()));
+  aiPolishFunctionButton->setFocusPolicy(Qt::NoFocus);
+  aiLoaderLayout->addWidget(aiPolishFunctionButton);
 
   displayAIEdit = new QTextEdit(this);
   displayAIEdit->setFocusPolicy(Qt::NoFocus);
@@ -213,6 +213,18 @@ void TQMainWindow::DoLoadNeuralAI()
 void TQMainWindow::DoLoadRandomAI()
   {
   ant->SetAI(new TRandomAntAI());
+  displayAIEdit->setText(ant->GetAIInfo().c_str());
+
+  UpdateAll();
+  }
+
+void TQMainWindow::DoLoadPolishFunctionAI()
+  {
+  QString str = QFileDialog::getOpenFileName(this,"Load polish notation function AI");
+  if (str == "") // cancel pressed
+    return;
+
+  ant->SetAI(new TAntPolishFunctionAI(str.toAscii().data()));
   displayAIEdit->setText(ant->GetAIInfo().c_str());
 
   UpdateAll();

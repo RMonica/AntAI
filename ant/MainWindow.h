@@ -41,6 +41,7 @@ class TQMainWindow : public QWidget
   void DoLoadTreeAI();
   void DoLoadRandomAI();
   void DoLoadNeuralAI();
+  void DoLoadPolishFunctionAI();
 
   private:
   TQGridWidget * mapWidget;

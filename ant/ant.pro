@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     AntAI.cpp \
     AntTreeAI.cpp \
     AntNeuralAI.cpp \
-    MultilayerPerceptron.cpp
+    MultilayerPerceptron.cpp \
+    AntPolishFunctionAI.cpp
 
 HEADERS  += MainWindow.h \
     Grid.h \
@@ -40,4 +41,5 @@ HEADERS  += MainWindow.h \
     AntAI.h \
     AntTreeAI.h \
     AntNeuralAI.h \
-    MultilayerPerceptron.h
+    MultilayerPerceptron.h \
+    AntPolishFunctionAI.h
